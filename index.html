@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>coding_practice (v1) — 보고서 합계 계산 연습</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    .wrap {
+      max-width: 420px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 16px 18px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 18px;
+      margin: 0 0 8px 0;
+    }
+    p {
+      font-size: 13px;
+      margin: 4px 0;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 6px 8px;
+      font-size: 14px;
+      margin-top: 4px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 14px;
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: #2563eb;
+      color: #ffffff;
+    }
+    #result {
+      margin-top: 14px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .hint {
+      margin-top: 8px;
+      font-size: 11px;
+      color: #6b7280;
+    }
+    footer {
+      margin-top: 20px;
+      font-size: 10px;
+      text-align: center;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>coding_practice — 보고서 가격 합계 계산</h1>
+    <p>보고서 가격 두 개를 입력하면 합계를 계산해 주는 연습 도구입니다.</p>
+
+    <label for="price1">보고서 1 가격 (원)</label>
+    <input type="number" id="price1" placeholder="예: 350000" />
+
+    <label for="price2">보고서 2 가격 (원)</label>
+    <input type="number" id="price2" placeholder="예: 420000" />
+
+    <button id="calc-btn">합계 계산</button>
+
+    <div id="result">합계: 아직 계산하지 않았습니다.</div>
+
+    <div class="hint">
+      사용법: 숫자 2개 입력 → [합계 계산] 버튼 클릭<br />
+      값을 바꿔보면 결과도 바로 바뀝니다.
+    </div>
+  </div>
+
+  <footer>
+    coding_practice (v1) — 기초 코딩을 업무 자동화 감각으로 익히는 단계
+  </footer>
+
+  <script>
+    const price1Input = document.getElementById("price1");
+    const price2Input = document.getElementById("price2");
+    const resultDiv   = document.getElementById("result");
+    const calcBtn     = document.getElementById("calc-btn");
+
+    calcBtn.addEventListener("click", function () {
+      const p1 = parseFloat(price1Input.value);
+      const p2 = parseFloat(price2Input.value);
+
+      if (isNaN(p1) || isNaN(p2)) {
+        resultDiv.textContent = "합계: 두 가격을 모두 숫자로 입력하세요.";
+        return;
+      }
+
+      const sum = p1 + p2;
+      resultDiv.textContent = "합계: " + sum.toLocaleString("ko-KR") + " 원";
+    });
+  </script>
+</body>
+</html>
