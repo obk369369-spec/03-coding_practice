@@ -2,274 +2,564 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>코딩 기초 연습 프로그램 — coding_practice</title>
+  <title>3번 코딩 기초 연습 도구 · Coding Practice v1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f5f5f5;
-      margin: 0;
-      padding: 0;
-    }
-    .wrap {
-      max-width: 1150px;
-      margin: 24px auto;
-      background: #ffffff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    h1 { font-size: 19px; margin: 0 0 8px 0; }
-    p { font-size: 13px; margin: 4px 0; }
-    .row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 12px; }
-    .panel { flex: 1 1 350px; min-width: 0; }
-    .panel-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
-    pre, textarea {
-      width: 100%;
-      padding: 8px;
-      border-radius: 6px;
-      font-family: "Fira Code", Consolas, monospace;
-      font-size: 12px;
-      border: 1px solid #d1d5db;
-      background: #0b1020;
-      color: #e5e7eb;
-      white-space: pre-wrap;
+    * {
       box-sizing: border-box;
     }
-    textarea { background: white; color: black; min-height: 200px; resize: vertical; }
-    select { padding: 6px 8px; margin-bottom: 6px; font-size: 13px; }
-    button {
-      padding: 7px 12px;
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f7;
+      color: #222;
+    }
+    h1, h2, h3 {
+      margin: 0 0 8px;
+    }
+    p {
+      margin: 4px 0 8px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .app {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      font-size: 11px;
+      border-radius: 999px;
+      background: #e0e7ff;
+      color: #1d2a6b;
+      margin-left: 6px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .card-header h2,
+    .card-header h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+    .card-header small {
       font-size: 12px;
-      border-radius: 8px;
-      border: none;
+      color: #666;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 6px 8px;
+      font-size: 13px;
+      border-radius: 6px;
+      border: 1px solid #d0d0d5;
+      outline: none;
+    }
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 1px rgba(79,70,229,0.15);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 180px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      line-height: 1.45;
+    }
+    button {
+      padding: 6px 10px;
+      font-size: 13px;
+      border-radius: 999px;
+      border: 1px solid #d0d0d5;
+      background: #fff;
       cursor: pointer;
+      margin-right: 6px;
     }
-    .run-btn { background: #2563eb; color: #fff; width: 100%; margin-top: 10px; }
-    .code-word-btn {
-      background: #e5e7eb; margin: 2px; color: #111;
+    button.primary {
+      background: #4f46e5;
+      color: #fff;
+      border-color: #4f46e5;
     }
-    #result {
-      margin-top: 10px; padding: 10px;
-      background: #0b1020; color: #e5e7eb;
-      border-radius: 6px; white-space: pre-wrap; min-height: 120px;
+    button.small {
+      font-size: 12px;
+      padding: 4px 8px;
     }
-    .hint { font-size: 11px; color: #6b7280; margin-top: 4px; }
-    footer { margin-top: 20px; font-size: 11px; text-align: center; color: #6b7280; }
+    button:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+    .row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .col-6 {
+      flex: 1 1 320px;
+    }
+    .pill {
+      display: inline-block;
+      padding: 3px 8px;
+      font-size: 11px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      margin-right: 4px;
+      margin-bottom: 4px;
+    }
+    .pill.ok {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .pill.warn {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    .status-line {
+      font-size: 12px;
+      color: #555;
+      margin-top: 4px;
+    }
+    iframe {
+      width: 100%;
+      height: 260px;
+      border-radius: 10px;
+      border: 1px solid #d0d0d5;
+      background: #fff;
+    }
+    .debug-box {
+      font-family: ui-monospace, monospace;
+      font-size: 11px;
+      white-space: pre-wrap;
+      background: #111827;
+      color: #e5e7eb;
+      padding: 8px;
+      border-radius: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .hint {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .chip-row {
+      margin-top: 4px;
+    }
+    .chip {
+      display: inline-block;
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #312e81;
+      margin-right: 4px;
+      margin-top: 2px;
+    }
   </style>
 </head>
-
 <body>
-<div class="wrap">
-  <h1>코딩 기초 연습 프로그램 (coding_practice)</h1>
-  <p>다른 도구 코드에서 발췌한 예시 코드를 기반으로 연습하는 구조입니다.</p>
-
-  <div class="row">
-    <div class="panel">
-      <div class="panel-title">① 예시 코드 선택</div>
-      <select id="snippetSelect"></select>
-      <pre id="exampleCode"></pre>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title">② 연습 코드</div>
-      <textarea id="codeEditor"></textarea>
-      <div class="hint">예시와 동일한 구조이지만 여기서 직접 고칠 수 있습니다.</div>
-    </div>
-  </div>
-
-  <div class="row" style="margin-top: 18px;">
-    <div class="panel">
-      <div class="panel-title">③ 코딩 단어 버튼</div>
-      <div id="code-buttons"></div>
-      <div class="hint">
-        단어를 누르면 코드 칸에 자동 입력됩니다.
+<div class="app">
+  <header class="card">
+    <div class="card-header">
+      <div>
+        <h1>3번 코딩 기초 연습 도구</h1>
+        <p>사업장 업무와 도구 개발을 돕기 위한 <strong>HTML/JS 연습 전용</strong> 화면입니다. (정적 index.html 한 파일로 동작)</p>
+      </div>
+      <div>
+        <span class="badge">v1 · Single File</span>
       </div>
     </div>
+    <p class="hint">
+      기본 흐름: ① 연습 선택 → ② 코드 불러오기/작성 → ③ 실행 → ④ 간단 점검 → ⑤ 브라우저에 저장<br />
+      나중에는 7번 세팅 도구에서 자동 테스트·자동 점검 모듈과 연결할 수 있습니다.
+    </p>
+  </header>
 
-    <div class="panel">
-      <div class="panel-title">④ 실행 / 미리 보기 (before/after)</div>
-      <button class="run-btn" id="runBtn">실행 / 미리보기</button>
-      <div id="result">결과: 아직 실행하지 않았습니다.</div>
+  <!-- ① 연습 선택 -->
+  <section class="card">
+    <div class="card-header">
+      <h2>① 연습 선택 · 기본 설정</h2>
+      <small>연습을 선택하면 예제 코드 + 체크 기준이 함께 불러와집니다.</small>
     </div>
-  </div>
+    <label for="exerciseSelect">연습 종류</label>
+    <select id="exerciseSelect">
+      <option value="html-button">연습 1 · 기본 HTML 버튼</option>
+      <option value="customer-table">연습 2 · 고객 목록 테이블</option>
+      <option value="tool-cards">연습 3 · 도구 카드 레이아웃</option>
+      <option value="blank">연습 4 · 완전 빈 화면(직접 작성)</option>
+    </select>
+    <div class="chip-row">
+      <span class="chip">HTML</span>
+      <span class="chip">JavaScript</span>
+      <span class="chip">WIC 업무 예제</span>
+    </div>
+    <div style="margin-top:8px;">
+      <button id="loadExerciseBtn" class="primary small">선택 연습 코드 불러오기</button>
+      <button id="loadSavedBtn" class="small">내가 저장한 코드 불러오기</button>
+      <button id="resetCodeBtn" class="small">코드 초기화</button>
+    </div>
+    <p class="hint">
+      · “선택 연습 코드 불러오기”는 예제 코드를 불러옵니다.<br />
+      · “내가 저장한 코드 불러오기”는 이 브라우저에 저장된 마지막 코드를 다시 가져옵니다.
+    </p>
+  </section>
+
+  <!-- ② 코드 편집 -->
+  <section class="card">
+    <div class="card-header">
+      <h2>② 코드 작성 · 편집</h2>
+      <small>HTML + JavaScript를 함께 작성할 수 있습니다.</small>
+    </div>
+    <label for="codeEditor">코드 편집기</label>
+    <textarea id="codeEditor" spellcheck="false"></textarea>
+    <div style="margin-top:8px;">
+      <button id="runCodeBtn" class="primary small">코드 실행</button>
+      <button id="saveCodeBtn" class="small">이 코드 브라우저에 저장</button>
+    </div>
+    <p class="hint">
+      · &lt;script&gt; 태그 안에 간단한 JavaScript도 같이 작성할 수 있습니다.<br />
+      · 저장된 코드는 이 브라우저(localStorage)에만 보관되고, 서버에는 올라가지 않습니다.
+    </p>
+  </section>
+
+  <!-- ③ 실행 결과 -->
+  <section class="card">
+    <div class="card-header">
+      <h2>③ 실행 결과 미리보기</h2>
+      <small>“코드 실행” 버튼을 누르면 아래 미리보기에서 결과를 볼 수 있습니다.</small>
+    </div>
+    <iframe id="previewFrame" title="코드 실행 결과 미리보기"></iframe>
+    <p class="status-line" id="runStatus">아직 실행 기록이 없습니다.</p>
+  </section>
+
+  <!-- ④ 간단 점검 -->
+  <section class="card">
+    <div class="card-header">
+      <h2>④ 간단 점검 · 체크리스트</h2>
+      <small>연습별로 아주 간단한 OK/점검 필요 표시만 보여 줍니다.</small>
+    </div>
+    <p class="hint">
+      · 이 단계는 “기본 자동 테스트”에 해당합니다.  
+      · 예제마다 “필수로 들어가야 하는 단어/태그”가 있는지 확인만 합니다.
+    </p>
+    <div id="checkResult">
+      <span class="pill">아직 점검 전입니다.</span>
+    </div>
+  </section>
+
+  <!-- ⑤ 디버그 / 상태 -->
+  <section class="card">
+    <div class="card-header">
+      <h2>⑤ 디버그 · 모듈 상태</h2>
+      <small>나중에 7번 세팅 도구에서 자동 테스트·자동 수정과 연결할 수 있는 상태 로그입니다.</small>
+    </div>
+    <div class="debug-box" id="debugBox"></div>
+  </section>
 </div>
 
-<footer>코딩 기초 연습 — 예시 코드 기반 + 단어 버튼 + 미리 보기</footer>
-
 <script>
-/* -------------------------
-    1) 예시 코드 12개 정의
-------------------------- */
-const snippets = [
-  {
-    name: "문장 앞에 태그 붙이기",
-    code: `function runExample(){
-  const title = "OLED 소재 시장 보고서";
-  const tag = "[WIC] ";
-  return tag + title;
-}`
-  },
-  {
-    name: "문장 뒤에 버전 표시 붙이기",
-    code: `function runExample(){
-  const base = "반도체 패키징 자료";
-  const ver = " v2.1";
-  return base + ver;
-}`
-  },
-  {
-    name: "앞 10글자만 잘라 제목 만들기",
-    code: `function runExample(){
-  const text = "2025년 신규 고객 대상 안내 메일";
-  return text.slice(0,10) + "...";
-}`
-  },
-  {
-    name: "문장 안 특정 단어 교체",
-    code: `function runExample(){
-  const txt = "OLED 보고서 안내";
-  return txt.replace("OLED", "MicroLED");
-}`
-  },
-  {
-    name: "숫자 문자열 숫자로 변환",
-    code: `function runExample(){
-  const price = "4500";
-  return Number(price) + 500;
-}`
-  },
-  {
-    name: "리스트 첫 3개만 보여주기",
-    code: `function runExample(){
-  const arr = ["A","B","C","D","E"];
-  return arr.slice(0,3);
-}`
-  },
-  {
-    name: "문장 포함 여부 체크",
-    code: `function runExample(){
-  const text = "오늘 보고서 발송 완료";
-  if(text.includes("보고서")) return "보고서 관련 문장";
-  return "기타 문장";
-}`
-  },
-  {
-    name: "템플릿 문자열 조합",
-    code: `function runExample(){
-  const name = "홍길동";
-  const item = "자료 안내";
-  return \`\${name}님, \${item} 드립니다.\`;
-}`
-  },
-  {
-    name: "여러 값 합쳐 한 문장 만들기",
-    code: `function runExample(){
-  const a = "견적";
-  const b = "문의";
-  return a + " " + b;
-}`
-  },
-  {
-    name: "숫자 2개 더하기",
-    code: `function runExample(){
-  const x = 12;
-  const y = 8;
-  return x + y;
-}`
-  },
-  {
-    name: "조건문으로 분기",
-    code: `function runExample(){
-  const val = 5;
-  if(val > 3) return "3보다 큼";
-  return "3 이하";
-}`
-  },
-  {
-    name: "문장 끝에 고정 문자열 추가",
-    code: `function runExample(){
-  const base = "고객 요청 자료";
-  return base + " (확인됨)";
-}`
+  // ---- 공통 상수 ----
+  const STORAGE_KEY_PREFIX = "wic_tool_3_code_";
+  const DEBUG_MAX_LINES = 80;
+
+  const exercises = {
+    "html-button": {
+      name: "연습 1 · 기본 HTML 버튼",
+      description: "간단한 버튼과 클릭 메시지를 만드는 연습입니다.",
+      defaultCode: `<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>연습 1 · 기본 버튼</title>
+  <style>
+    body { font-family: sans-serif; padding: 16px; }
+    button { padding: 8px 12px; border-radius: 8px; border: 1px solid #999; }
+  </style>
+</head>
+<body>
+  <h1>연습 1 · 기본 버튼</h1>
+  <p>버튼을 눌렀을 때 아래 문장이 바뀌도록 만들어 보세요.</p>
+  <button id="helloBtn">눌러 보세요</button>
+  <p id="resultText">아직 클릭 안 함</p>
+
+  <script>
+    const btn = document.getElementById("helloBtn");
+    const result = document.getElementById("resultText");
+
+    btn.addEventListener("click", () => {
+      result.textContent = "버튼 클릭 성공!";
+    });
+  <\/script>
+</body>
+</html>`,
+      checks: [
+        { label: "<button> 태그 포함", keyword: "<button", required: true },
+        { label: "addEventListener 사용", keyword: "addEventListener", required: true }
+      ]
+    },
+    "customer-table": {
+      name: "연습 2 · 고객 목록 테이블",
+      description: "기관 / 고객이름 / 이메일 / 관심분야를 보여 주는 표를 만드는 연습입니다.",
+      defaultCode: `<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>연습 2 · 고객 목록 테이블</title>
+  <style>
+    body { font-family: sans-serif; padding: 16px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 6px 8px; font-size: 13px; }
+    th { background: #f3f4f6; }
+  </style>
+</head>
+<body>
+  <h1>연습 2 · 고객 목록 테이블</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>기관</th>
+        <th>고객이름</th>
+        <th>이메일 주소</th>
+        <th>관심분야</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>KIST</td>
+        <td>김연구 박사</td>
+        <td>kim@kist.re.kr</td>
+        <td>perovskite solar cell</td>
+      </tr>
+      <tr>
+        <td>KITECH</td>
+        <td>박연구 박사</td>
+        <td>park@kitech.re.kr</td>
+        <td>glass substrate adhesives</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>`,
+      checks: [
+        { label: "<table> 태그 포함", keyword: "<table", required: true },
+        { label: "기관 / 고객이름 / 이메일 / 관심분야 텍스트 포함", keyword: "기관", required: true }
+      ]
+    },
+    "tool-cards": {
+      name: "연습 3 · 도구 카드 레이아웃",
+      description: "1번/2번/7번 도구 같은 카드를 그리드로 배치하는 연습입니다.",
+      defaultCode: `<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>연습 3 · 도구 카드</title>
+  <style>
+    body { font-family: sans-serif; padding: 16px; background: #f5f5f7; }
+    .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px 14px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    }
+    .title { font-weight: 600; margin-bottom: 4px; }
+    .status { font-size: 12px; color: #555; }
+  </style>
+</head>
+<body>
+  <h1>연습 3 · 도구 카드 레이아웃</h1>
+  <div class="grid">
+    <div class="card">
+      <div class="title">1번 고객 자동화 안내서</div>
+      <div class="status">상태: 준비중</div>
+    </div>
+    <div class="card">
+      <div class="title">2번 입찰·전자조달 도구</div>
+      <div class="status">상태: 테스트 중</div>
+    </div>
+    <div class="card">
+      <div class="title">7번 세팅 도구</div>
+      <div class="status">상태: 핵심 관리</div>
+    </div>
+  </div>
+</body>
+</html>`,
+      checks: [
+        { label: "도구 카드 3개 이상", keyword: "class=\"card\"", required: true },
+        { label: "1번 / 2번 / 7번 텍스트 포함", keyword: "1번 고객 자동화 안내서", required: false }
+      ]
+    },
+    "blank": {
+      name: "연습 4 · 빈 화면",
+      description: "아무 코드도 넣지 않고 완전히 처음부터 직접 만들어 보는 연습입니다.",
+      defaultCode: `<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>연습 4 · 빈 화면</title>
+</head>
+<body>
+  <h1>새 연습 시작</h1>
+  <p>여기에 HTML과 JavaScript를 직접 작성해 보세요.</p>
+</body>
+</html>`,
+      checks: []
+    }
+  };
+
+  // ---- 요소 가져오기 ----
+  const exerciseSelect = document.getElementById("exerciseSelect");
+  const loadExerciseBtn = document.getElementById("loadExerciseBtn");
+  const loadSavedBtn = document.getElementById("loadSavedBtn");
+  const resetCodeBtn = document.getElementById("resetCodeBtn");
+  const codeEditor = document.getElementById("codeEditor");
+  const runCodeBtn = document.getElementById("runCodeBtn");
+  const saveCodeBtn = document.getElementById("saveCodeBtn");
+  const previewFrame = document.getElementById("previewFrame");
+  const runStatus = document.getElementById("runStatus");
+  const checkResult = document.getElementById("checkResult");
+  const debugBox = document.getElementById("debugBox");
+
+  // ---- 유틸 함수 ----
+  function nowTime() {
+    const d = new Date();
+    const pad = (n) => String(n).padStart(2, "0");
+    return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
   }
-];
 
-/* -------------------------
-    2) 단어 버튼 14개
-------------------------- */
-const codeWords = [
-  "function ", "return ", "if (){\n\n}", "const ", "let ",
-  "Number()", "String()", "slice()", "replace()", "includes()",
-  "+", "=", "{}", "[]"
-];
+  function logDebug(message) {
+    const time = nowTime();
+    const current = debugBox.textContent ? debugBox.textContent.split("\n") : [];
+    current.push(`[${time}] ${message}`);
+    const trimmed = current.slice(-DEBUG_MAX_LINES);
+    debugBox.textContent = trimmed.join("\n");
+  }
 
-/* -------------------------
-    3) DOM 요소
-------------------------- */
-const snippetSelect = document.getElementById("snippetSelect");
-const exampleCodeEl = document.getElementById("exampleCode");
-const codeEditorEl = document.getElementById("codeEditor");
-const runBtn = document.getElementById("runBtn");
-const resultEl = document.getElementById("result");
-const btnContainer = document.getElementById("code-buttons");
+  function getCurrentExerciseKey() {
+    return exerciseSelect.value || "html-button";
+  }
 
-/* -------------------------
-    4) 초기 로딩
-------------------------- */
-snippets.forEach((snip, idx) => {
-  const opt = document.createElement("option");
-  opt.value = idx;
-  opt.textContent = snip.name;
-  snippetSelect.appendChild(opt);
-});
+  function getStorageKey() {
+    const key = getCurrentExerciseKey();
+    return STORAGE_KEY_PREFIX + key;
+  }
 
-function loadSnippet(idx){
-  const sn = snippets[idx];
-  exampleCodeEl.textContent = sn.code;
-  codeEditorEl.value = sn.code;
-  resultEl.textContent = "결과: 아직 실행하지 않았습니다.";
-}
-
-loadSnippet(0);
-
-snippetSelect.addEventListener("change", ()=>{
-  loadSnippet(snippetSelect.value);
-});
-
-/* -------------------------
-    5) 단어 버튼 생성
-------------------------- */
-codeWords.forEach(word=>{
-  const btn = document.createElement("button");
-  btn.className = "code-word-btn";
-  btn.textContent = word;
-  btn.addEventListener("click", ()=>{
-    codeEditorEl.value += word;
-    codeEditorEl.focus();
-  });
-  btnContainer.appendChild(btn);
-});
-
-/* -------------------------
-    6) 실행 / 미리보기
-------------------------- */
-runBtn.addEventListener("click", ()=>{
-  const code = codeEditorEl.value;
-
-  try {
-    const runner = new Function(code + "\nreturn typeof runExample==='function'?runExample:null;");
-    const fn = runner();
-    if(!fn){
-      resultEl.textContent = "결과: runExample() 함수가 없습니다.";
+  // ---- 연습 코드 불러오기 ----
+  function loadExerciseCode() {
+    const key = getCurrentExerciseKey();
+    const ex = exercises[key];
+    if (!ex) {
+      logDebug("연습 정보를 찾을 수 없습니다.");
       return;
     }
-    const before = "(before)\n" + code;
-    const after = "(after)\n" + String(fn());
-    resultEl.textContent = before + "\n\n---------------------\n\n" + after;
-  } catch(e){
-    resultEl.textContent = "코드 오류:\n" + e;
+    codeEditor.value = ex.defaultCode;
+    checkResult.innerHTML = `<span class="pill">아직 점검 전입니다.</span>`;
+    logDebug(`"${ex.name}" 예제 코드 불러옴.`);
   }
-});
+
+  // ---- 저장된 코드 불러오기 ----
+  function loadSavedCode() {
+    const storageKey = getStorageKey();
+    const saved = localStorage.getItem(storageKey);
+    if (!saved) {
+      logDebug("저장된 코드가 없습니다.");
+      alert("저장된 코드가 없습니다.");
+      return;
+    }
+    codeEditor.value = saved;
+    logDebug("브라우저에 저장된 코드를 불러왔습니다.");
+  }
+
+  // ---- 코드 저장 ----
+  function saveCode() {
+    const storageKey = getStorageKey();
+    const code = codeEditor.value || "";
+    localStorage.setItem(storageKey, code);
+    logDebug("현재 코드를 브라우저(localStorage)에 저장했습니다.");
+    alert("코드를 이 브라우저에 저장했습니다.");
+  }
+
+  // ---- 코드 실행 ----
+  function runCode() {
+    const code = codeEditor.value || "";
+    previewFrame.srcdoc = code;
+    runStatus.textContent = `${nowTime()} · 코드 실행 완료 (iframe에 표시됨)`;
+    logDebug("코드를 실행했습니다.");
+    runBasicCheck();
+  }
+
+  // ---- 간단 점검 ----
+  function runBasicCheck() {
+    const key = getCurrentExerciseKey();
+    const ex = exercises[key];
+    const code = codeEditor.value || "";
+    if (!ex || !ex.checks || ex.checks.length === 0) {
+      checkResult.innerHTML = `<span class="pill">이 연습에는 아직 체크 기준이 없습니다.</span>`;
+      logDebug("이 연습에는 체크 기준이 없습니다.");
+      return;
+    }
+
+    let allRequiredOk = true;
+    const fragments = [];
+
+    ex.checks.forEach(check => {
+      const has = code.includes(check.keyword);
+      const ok = has || !check.required;
+      if (check.required && !has) {
+        allRequiredOk = false;
+      }
+      const cls = ok ? "ok" : "warn";
+      const stateText = ok ? "OK" : "점검 필요";
+      fragments.push(`<span class="pill ${cls}">${stateText} · ${check.label}</span>`);
+    });
+
+    checkResult.innerHTML = fragments.join(" ");
+    if (allRequiredOk) {
+      logDebug(`기본 점검: OK (필수 항목 모두 포함)`);
+    } else {
+      logDebug(`기본 점검: 점검 필요 (빠진 항목 있음)`);
+    }
+  }
+
+  // ---- 코드 초기화 ----
+  function resetCode() {
+    codeEditor.value = "";
+    checkResult.innerHTML = `<span class="pill">코드를 비웠습니다. 예제를 다시 불러오거나 직접 작성해 보세요.</span>`;
+    previewFrame.srcdoc = "";
+    runStatus.textContent = "아직 실행 기록이 없습니다.";
+    logDebug("코드를 비우고 초기화했습니다.");
+  }
+
+  // ---- 이벤트 연결 ----
+  loadExerciseBtn.addEventListener("click", loadExerciseCode);
+  loadSavedBtn.addEventListener("click", loadSavedCode);
+  resetCodeBtn.addEventListener("click", resetCode);
+  saveCodeBtn.addEventListener("click", saveCode);
+  runCodeBtn.addEventListener("click", runCode);
+
+  // ---- 초기 상태 ----
+  (function init() {
+    logDebug("3번 코딩 기초 연습 도구 시작.");
+    loadExerciseCode();
+  })();
 </script>
 </body>
 </html>
