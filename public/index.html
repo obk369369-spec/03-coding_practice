@@ -1,215 +1,375 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8" />
-<title>3번 도구 · 코딩 기초 연습 도구 · WIC 자동화 시스템2</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<style>
-  :root {
-    --bg: #f4f7ff;
-    --panel: #ffffff;
-    --border: #d7dff0;
-    --accent: #2563eb;
-    --accent-soft: rgba(37, 99, 235, 0.08);
-    --text: #111827;
-    --muted: #6b7280;
-    --radius: 14px;
-    --shadow: 0 6px 16px rgba(30, 41, 59, 0.08);
-  }
-
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-  }
-
-  .app {
-    max-width: 1200px;
-    margin: 18px auto 30px;
-    padding: 0 14px;
-  }
-
-  header {
-    background: linear-gradient(135deg, #eef3ff, #ffffff);
-    padding: 16px 18px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
-  }
-
-  header h1 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 700;
-  }
-
-  header p {
-    margin: 4px 0 0;
-    font-size: 12px;
-    color: var(--muted);
-  }
-
-  .grid {
-    margin-top: 18px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
-
-  @media (max-width: 900px) {
-    .grid {
-      grid-template-columns: 1fr;
+  <meta charset="UTF-8" />
+  <title>3번 도구 · 코딩 기초 연습 도구</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
     }
-  }
-
-  .card {
-    background: var(--panel);
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    padding: 14px;
-    box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .card-title {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
-
-  textarea {
-    width: 100%;
-    height: 260px;
-    resize: vertical;
-    padding: 10px;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    font-size: 13px;
-    font-family: Consolas, monospace;
-    background: #fdfdff;
-  }
-
-  .btn {
-    padding: 7px 12px;
-    border-radius: 999px;
-    border: none;
-    cursor: pointer;
-    font-size: 13px;
-    background: var(--accent);
-    color: white;
-  }
-
-  .btn:hover {
-    background: #1e4ed8;
-  }
-
-  .output-box {
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: #fafcff;
-    padding: 10px;
-    min-height: 260px;
-    white-space: pre-wrap;
-    font-family: Consolas, monospace;
-    font-size: 13px;
-    overflow-y: auto;
-  }
-
-  .status {
-    margin-top: 6px;
-    font-size: 12px;
-    color: var(--muted);
-  }
-</style>
+    .app {
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 16px 20px 24px;
+      background: #020617;
+      border-radius: 16px;
+      border: 1px solid #1e293b;
+      box-shadow: 0 10px 30px rgba(15,23,42,0.6);
+    }
+    h1 {
+      font-size: 18px;
+      margin: 0 0 4px 0;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: #9ca3af;
+      margin-bottom: 10px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #1e293b;
+      font-size: 11px;
+      color: #e5e7eb;
+      margin-bottom: 8px;
+    }
+    .layout {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .panel {
+      flex: 1 1 320px;
+      min-width: 0;
+      background: #020617;
+      border-radius: 12px;
+      border: 1px solid #1f2937;
+      padding: 10px;
+    }
+    .panel-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .panel-desc {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 8px;
+    }
+    textarea {
+      width: 100%;
+      min-height: 210px;
+      background: #020617;
+      color: #e5e7eb;
+      border-radius: 8px;
+      border: 1px solid #374151;
+      padding: 8px 9px;
+      font-size: 12px;
+      resize: vertical;
+      font-family: "Fira Code", Consolas, monospace;
+      line-height: 1.4;
+    }
+    .code-input {
+      background: #020617;
+    }
+    .hint-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+      align-items: center;
+    }
+    .hint-label {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-right: 4px;
+    }
+    button {
+      border: none;
+      cursor: pointer;
+      border-radius: 999px;
+      font-size: 11px;
+      padding: 5px 9px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+    .btn-main {
+      background: #2563eb;
+      color: #f9fafb;
+      font-size: 13px;
+      padding: 7px 14px;
+      border-radius: 999px;
+    }
+    .btn-main:hover {
+      background: #1d4ed8;
+    }
+    .btn-ghost {
+      background: #111827;
+      color: #e5e7eb;
+      border: 1px solid #374151;
+    }
+    .btn-ghost:hover {
+      background: #020617;
+    }
+    .btn-chip {
+      background: #111827;
+      color: #e5e7eb;
+      border: 1px solid #374151;
+    }
+    .btn-chip:hover {
+      background: #0b1120;
+    }
+    .btn-chip span.key {
+      font-family: "Fira Code", Consolas, monospace;
+      font-size: 11px;
+    }
+    .run-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .run-note {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+    .output-box {
+      background: #020617;
+      border-radius: 8px;
+      border: 1px solid #374151;
+      padding: 8px 9px;
+      font-size: 12px;
+      font-family: "Fira Code", Consolas, monospace;
+      white-space: pre-wrap;
+      line-height: 1.4;
+      min-height: 160px;
+    }
+    .output-label {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .output-ok {
+      color: #a5f3fc;
+    }
+    .output-err {
+      color: #fecaca;
+    }
+    .tag {
+      font-size: 10px;
+      color: #9ca3af;
+    }
+    footer {
+      margin-top: 10px;
+      font-size: 10px;
+      color: #6b7280;
+      text-align: right;
+    }
+    @media (max-width: 720px) {
+      .app { margin: 12px; padding: 12px 12px 16px; }
+    }
+  </style>
 </head>
-
 <body>
-<div class="app">
+  <div class="app">
+    <div class="badge">3번 도구 · 코딩 기초 연습 도구</div>
+    <h1>코드를 직접 입력하고 실행해보는 WIC 기본 연습 모듈</h1>
+    <div class="subtitle">
+      아주 작은 JavaScript 코드 조각을 직접 입력·수정해 보면서,
+      <strong>실행 결과를 눈으로 확인하는 연습</strong>을 할 수 있습니다.
+    </div>
 
-  <header>
-    <h1>3번 도구 · 코딩 기초 연습 도구</h1>
-    <p>코드를 직접 입력하고 실행해보는 WIC 기본 연습 모듈</p>
-  </header>
+    <div class="layout">
+      <!-- 코드 입력 패널 -->
+      <div class="panel">
+        <div class="panel-title">코드 입력 (JavaScript)</div>
+        <div class="panel-desc">
+          아래 칸에 JavaScript 코드를 적고, 오른쪽에서 <strong>실행 결과</strong>를 확인합니다.<br />
+          처음에는 예제 불러오기 버튼부터 눌러보면 됩니다.
+        </div>
+        <textarea
+          id="code-input"
+          class="code-input"
+          placeholder="예:
+const x = 10;
+console.log(x * 2);"
+        ></textarea>
 
-  <div class="grid">
+        <div class="hint-row" style="margin-top: 8px;">
+          <span class="hint-label">예제 코드 불러오기:</span>
+          <button class="btn-ghost" type="button" data-example="basic">기본 예제</button>
+          <button class="btn-ghost" type="button" data-example="string">문자 예제</button>
+          <button class="btn-ghost" type="button" data-example="if">if 조건 예제</button>
+        </div>
 
-    <!-- LEFT: 코드 입력 -->
-    <section class="card">
-      <div class="card-title">코드 입력 (JavaScript)</div>
-      <textarea id="codeInput" placeholder="여기에 JavaScript 코드를 입력하세요.&#10;예: &#10;const x = 10; &#10;console.log(x * 2);"></textarea>
+        <div class="hint-row" style="margin-top: 6px;">
+          <span class="hint-label">기초 코딩 단어 넣기:</span>
+          <button class="btn-chip" type="button" data-snippet="function "><span class="key">function</span></button>
+          <button class="btn-chip" type="button" data-snippet="const "><span class="key">const</span></button>
+          <button class="btn-chip" type="button" data-snippet="let "><span class="key">let</span></button>
+          <button class="btn-chip" type="button" data-snippet="if () {\n\n}\n"><span class="key">if ( ) { }</span></button>
+          <button class="btn-chip" type="button" data-snippet="console.log();"><span class="key">console.log()</span></button>
+        </div>
 
-      <button class="btn" id="runBtn">코드 실행</button>
-      <div class="status">* 화면에 보이는 기능만 동작합니다. localStorage 자동 저장.</div>
-    </section>
+        <div class="run-bar">
+          <button id="run-btn" class="btn-main" type="button">코드 실행</button>
+          <span class="run-note">
+            * 화면에 보이는 기능만 동작합니다. 코드 내용은 localStorage에 자동 저장됩니다.
+          </span>
+        </div>
+      </div>
 
-    <!-- RIGHT: 결과 출력 -->
-    <section class="card">
-      <div class="card-title">실행 결과</div>
-      <div id="outputBox" class="output-box">여기에 실행 결과가 표시됩니다.</div>
-      <div class="status">에러 발생 시 자동 표시됩니다.</div>
-    </section>
+      <!-- 결과 패널 -->
+      <div class="panel">
+        <div class="panel-title">실행 결과</div>
+        <div class="panel-desc">
+          <code>console.log(...)</code> 로 출력된 내용이 아래에 순서대로 표시됩니다.<br />
+          에러가 있으면 빨간색으로 자동 표시됩니다.
+        </div>
+        <div class="output-label">
+          <span class="tag">콘솔 출력 / 오류 메시지</span>
+        </div>
+        <div id="output" class="output-box">
+여기에 실행 결과가 표시됩니다.
+에러 발생 시 자동 표시됩니다.
+        </div>
+      </div>
+    </div>
 
+    <footer>
+      코딩 기초 연습 · 작은 코드 조각부터 하나씩 실행해 보며 감각을 익히는 단계
+    </footer>
   </div>
-</div>
 
-<script>
-(function () {
-  "use strict";
+  <script>
+    (function () {
+      const codeInput = document.getElementById("code-input");
+      const runBtn = document.getElementById("run-btn");
+      const outputBox = document.getElementById("output");
+      const exampleButtons = document.querySelectorAll("button[data-example]");
+      const snippetButtons = document.querySelectorAll("button[data-snippet]");
+      const STORAGE_KEY = "wic_coding_basic_code_v1";
 
-  const codeInput = document.getElementById("codeInput");
-  const outputBox = document.getElementById("outputBox");
-  const runBtn = document.getElementById("runBtn");
-
-  const STORAGE_KEY = "wic_coding_practice_v1";
-
-  function loadSaved() {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) codeInput.value = saved;
-    } catch (_) {}
-  }
-
-  function saveCode() {
-    try {
-      localStorage.setItem(STORAGE_KEY, codeInput.value);
-    } catch (_) {}
-  }
-
-  function runCode() {
-    const userCode = codeInput.value || "";
-    saveCode();
-
-    outputBox.textContent = "실행 중...\n";
-
-    try {
-      const captured = [];
-      const fakeConsole = {
-        log: function (...args) {
-          captured.push(args.join(" "));
-        }
+      // 기본 예제들
+      const examples = {
+        basic: [
+          "const x = 10;",
+          "const y = 2;",
+          "console.log('x * y =', x * y);"
+        ].join("\n"),
+        string: [
+          "const name = 'WIC';",
+          "console.log('안녕하세요,', name, '입니다.');"
+        ].join("\n"),
+        if: [
+          "const value = 7;",
+          "if (value > 5) {",
+          "  console.log('5보다 큽니다.');",
+          "} else {",
+          "  console.log('5보다 크지 않습니다.');",
+          "}"
+        ].join("\n")
       };
 
-      const wrapped = new Function("console", userCode);
-      wrapped(fakeConsole);
+      // localStorage 복원
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved && saved.trim() !== "") {
+          codeInput.value = saved;
+        } else {
+          codeInput.value = examples.basic;
+        }
+      } catch (e) {
+        codeInput.value = examples.basic;
+      }
 
-      outputBox.textContent =
-        captured.length > 0 ? captured.join("\n") : "(출력값 없음)";
-    } catch (e) {
-      outputBox.textContent = "⚠ 오류 발생:\n" + e.message;
-    }
-  }
+      // 코드 자동 저장
+      codeInput.addEventListener("input", () => {
+        try {
+          localStorage.setItem(STORAGE_KEY, codeInput.value);
+        } catch (e) {
+          // 저장 실패 시는 그냥 무시
+        }
+      });
 
-  runBtn.addEventListener("click", runCode);
-  codeInput.addEventListener("input", saveCode);
+      // 예제 버튼
+      exampleButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const key = btn.getAttribute("data-example");
+          const ex = examples[key];
+          if (ex) {
+            codeInput.value = ex;
+            try {
+              localStorage.setItem(STORAGE_KEY, ex);
+            } catch (e) {}
+          }
+        });
+      });
 
-  loadSaved();
-})();
-</script>
+      // 스니펫 버튼
+      snippetButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const snippet = btn.getAttribute("data-snippet") || "";
+          const start = codeInput.selectionStart;
+          const end = codeInput.selectionEnd;
+          const text = codeInput.value;
+          codeInput.value = text.slice(0, start) + snippet + text.slice(end);
+          // 커서를 snippet 끝으로 이동
+          const cursorPos = start + snippet.length;
+          codeInput.selectionStart = codeInput.selectionEnd = cursorPos;
+          codeInput.focus();
+          try {
+            localStorage.setItem(STORAGE_KEY, codeInput.value);
+          } catch (e) {}
+        });
+      });
 
+      // 코드 실행
+      runBtn.addEventListener("click", () => {
+        const userCode = codeInput.value;
+        if (!userCode.trim()) {
+          outputBox.textContent = "코드가 비어 있습니다. 예제 불러오기를 먼저 눌러보세요.";
+          outputBox.classList.remove("output-err");
+          outputBox.classList.add("output-ok");
+          return;
+        }
+
+        let logs = [];
+        const fakeConsole = {
+          log: (...args) => {
+            logs.push(args.join(" "));
+          }
+        };
+
+        try {
+          // 사용자 코드 실행
+          const fn = new Function("console", userCode);
+          fn(fakeConsole);
+
+          if (logs.length === 0) {
+            outputBox.textContent = "실행 완료: console.log(...) 출력이 없습니다.";
+          } else {
+            outputBox.textContent = logs.join("\n");
+          }
+          outputBox.classList.remove("output-err");
+          outputBox.classList.add("output-ok");
+        } catch (err) {
+          outputBox.textContent = "에러 발생:\n" + String(err);
+          outputBox.classList.remove("output-ok");
+          outputBox.classList.add("output-err");
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
