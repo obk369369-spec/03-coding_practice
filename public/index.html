@@ -13,13 +13,22 @@
       color: #e5e7eb;
     }
     .app {
-      max-width: 1100px;
+      max-width: 1120px;
       margin: 24px auto;
       padding: 16px 20px 24px;
       background: #020617;
       border-radius: 16px;
       border: 1px solid #1e293b;
       box-shadow: 0 10px 30px rgba(15,23,42,0.6);
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #1e293b;
+      font-size: 11px;
+      color: #e5e7eb;
+      margin-bottom: 6px;
     }
     h1 {
       font-size: 18px;
@@ -30,14 +39,38 @@
       color: #9ca3af;
       margin-bottom: 10px;
     }
-    .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: #1e293b;
-      font-size: 11px;
-      color: #e5e7eb;
-      margin-bottom: 8px;
+    .top-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .top-card {
+      flex: 1 1 260px;
+      min-width: 0;
+      background: #020617;
+      border-radius: 12px;
+      border: 1px solid #1f2937;
+      padding: 10px;
+    }
+    .top-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .top-text {
+      font-size: 12px;
+      color: #9ca3af;
+      line-height: 1.5;
+    }
+    .goal-list {
+      font-size: 12px;
+      margin: 4px 0 0 0;
+      padding-left: 14px;
+      color: #d1d5db;
+    }
+    .goal-list li {
+      margin-bottom: 2px;
     }
     .layout {
       display: flex;
@@ -61,7 +94,16 @@
     .panel-desc {
       font-size: 11px;
       color: #9ca3af;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+    }
+    .steps {
+      font-size: 11px;
+      color: #9ca3af;
+      margin: 6px 0 8px 0;
+      padding-left: 16px;
+    }
+    .steps li {
+      margin-bottom: 2px;
     }
     textarea {
       width: 100%;
@@ -75,9 +117,6 @@
       resize: vertical;
       font-family: "Fira Code", Consolas, monospace;
       line-height: 1.4;
-    }
-    .code-input {
-      background: #020617;
     }
     .hint-row {
       display: flex;
@@ -109,25 +148,19 @@
       padding: 7px 14px;
       border-radius: 999px;
     }
-    .btn-main:hover {
-      background: #1d4ed8;
-    }
+    .btn-main:hover { background: #1d4ed8; }
     .btn-ghost {
       background: #111827;
       color: #e5e7eb;
       border: 1px solid #374151;
     }
-    .btn-ghost:hover {
-      background: #020617;
-    }
+    .btn-ghost:hover { background: #020617; }
     .btn-chip {
       background: #111827;
       color: #e5e7eb;
       border: 1px solid #374151;
     }
-    .btn-chip:hover {
-      background: #0b1120;
-    }
+    .btn-chip:hover { background: #0b1120; }
     .btn-chip span.key {
       font-family: "Fira Code", Consolas, monospace;
       font-size: 11px;
@@ -137,7 +170,7 @@
       flex-wrap: wrap;
       gap: 8px;
       align-items: center;
-      margin-top: 10px;
+      margin-top: 8px;
     }
     .run-note {
       font-size: 11px;
@@ -159,15 +192,28 @@
       color: #9ca3af;
       margin-bottom: 4px;
     }
-    .output-ok {
-      color: #a5f3fc;
+    .output-ok { color: #a5f3fc; }
+    .output-err { color: #fecaca; }
+    .motivation {
+      font-size: 11px;
+      color: #bbf7d0;
+      margin-top: 6px;
     }
-    .output-err {
-      color: #fecaca;
-    }
-    .tag {
-      font-size: 10px;
+    .motion-box {
+      margin-top: 6px;
+      border-radius: 8px;
+      border: 1px dashed #4b5563;
+      padding: 8px;
+      font-size: 11px;
       color: #9ca3af;
+      background: #020617;
+      text-align: center;
+    }
+    .motion-title {
+      font-weight: 600;
+      font-size: 11px;
+      margin-bottom: 2px;
+      color: #e5e7eb;
     }
     footer {
       margin-top: 10px;
@@ -176,7 +222,7 @@
       text-align: right;
     }
     @media (max-width: 720px) {
-      .app { margin: 12px; padding: 12px 12px 16px; }
+      .app { margin: 10px; padding: 12px 12px 16px; }
     }
   </style>
 </head>
@@ -186,26 +232,68 @@
     <h1>코드를 직접 입력하고 실행해보는 WIC 기본 연습 모듈</h1>
     <div class="subtitle">
       아주 작은 JavaScript 코드 조각을 직접 입력·수정해 보면서,
-      <strong>실행 결과를 눈으로 확인하는 연습</strong>을 할 수 있습니다.
+      <strong>실행 결과를 눈으로 확인하는 연습</strong>을 하는 도구입니다.
     </div>
 
-    <div class="layout">
-      <!-- 코드 입력 패널 -->
-      <div class="panel">
-        <div class="panel-title">코드 입력 (JavaScript)</div>
-        <div class="panel-desc">
-          아래 칸에 JavaScript 코드를 적고, 오른쪽에서 <strong>실행 결과</strong>를 확인합니다.<br />
-          처음에는 예제 불러오기 버튼부터 눌러보면 됩니다.
+    <!-- 상단: 도구 설명 + 오늘 목표 + 모션 안내 -->
+    <div class="top-row">
+      <div class="top-card">
+        <div class="top-title">도구 설명</div>
+        <div class="top-text">
+          이 도구는 WIC에서 실제로 쓰는 코드와 비슷한 형태로,
+          <strong>작은 코드부터 한 줄씩 만져보는 연습</strong>을 돕습니다.<br />
+          예제 버튼을 눌러서 시작한 뒤, 코드를 조금씩 바꾸고
+          오른쪽 결과창을 보면서 감각을 익힙니다.
         </div>
+      </div>
+      <div class="top-card">
+        <div class="top-title">오늘 목표 (예시)</div>
+        <ul class="goal-list">
+          <li>1) 기본 예제를 한 번 실행해 본다.</li>
+          <li>2) 숫자나 글자를 <strong>한 줄만</strong> 바꿔 본다.</li>
+          <li>3) <code>console.log</code> 결과가 어떻게 달라지는지 본다.</li>
+        </ul>
+      </div>
+      <div class="top-card">
+        <div class="top-title">모션 가이드 자리</div>
+        <div class="top-text">
+          아래 박스는 나중에 <strong>모션 이미지(GIF)</strong>나
+          짧은 영상이 들어갈 자리입니다.<br />
+          “예제 불러오기 → 코드 수정 → 실행” 흐름을
+          눈으로 보여주는 간단한 움직이는 그림을 넣으면 됩니다.
+        </div>
+        <div class="motion-box">
+          <div class="motion-title">[모션 이미지 자리]</div>
+          예: 예제 버튼을 누르고, 코드 한 줄을 바꾸고,<br />
+          실행 버튼을 누르는 과정을 보여주는 GIF를 넣으세요.
+        </div>
+      </div>
+    </div>
+
+    <!-- 메인 레이아웃 -->
+    <div class="layout">
+      <!-- 왼쪽: 코드 입력 / 예제 / 사용 방법 -->
+      <div class="panel">
+        <div class="panel-title">① 코드 입력 (JavaScript)</div>
+        <div class="panel-desc">
+          이 영역에서 코드를 직접 수정합니다.<br />
+          처음에는 아래 단계대로만 따라가면 됩니다.
+        </div>
+        <ul class="steps">
+          <li>1단계: 아래 <strong>예제 코드 불러오기</strong> 버튼 중 하나를 누른다.</li>
+          <li>2단계: 숫자, 글자, 메시지 중 한 줄만 바꿔 본다.</li>
+          <li>3단계: 아래 <strong>코드 실행</strong> 버튼을 눌러 결과를 확인한다.</li>
+        </ul>
+
         <textarea
           id="code-input"
-          class="code-input"
           placeholder="예:
 const x = 10;
-console.log(x * 2);"
+const y = 2;
+console.log('x * y =', x * y);"
         ></textarea>
 
-        <div class="hint-row" style="margin-top: 8px;">
+        <div class="hint-row">
           <span class="hint-label">예제 코드 불러오기:</span>
           <button class="btn-ghost" type="button" data-example="basic">기본 예제</button>
           <button class="btn-ghost" type="button" data-example="string">문자 예제</button>
@@ -229,19 +317,24 @@ console.log(x * 2);"
         </div>
       </div>
 
-      <!-- 결과 패널 -->
+      <!-- 오른쪽: 실행 결과 / 메시지 / 모션 안내 -->
       <div class="panel">
-        <div class="panel-title">실행 결과</div>
+        <div class="panel-title">② 실행 결과</div>
         <div class="panel-desc">
           <code>console.log(...)</code> 로 출력된 내용이 아래에 순서대로 표시됩니다.<br />
           에러가 있으면 빨간색으로 자동 표시됩니다.
         </div>
-        <div class="output-label">
-          <span class="tag">콘솔 출력 / 오류 메시지</span>
-        </div>
+        <div class="output-label">콘솔 출력 / 오류 메시지</div>
         <div id="output" class="output-box">
 여기에 실행 결과가 표시됩니다.
 에러 발생 시 자동 표시됩니다.
+        </div>
+        <div class="motivation" id="motivation-text">
+          오늘의 작은 미션: 예제 하나를 실행하고, 숫자나 글자를 한 번만 바꿔 보세요.
+        </div>
+        <div class="motion-box">
+          <div class="motion-title">[실행 모션 이미지 자리]</div>
+          예: 코드 실행 전/후 화면을 비교해서 보여주는 GIF를 넣을 수 있습니다.
         </div>
       </div>
     </div>
@@ -258,6 +351,7 @@ console.log(x * 2);"
       const outputBox = document.getElementById("output");
       const exampleButtons = document.querySelectorAll("button[data-example]");
       const snippetButtons = document.querySelectorAll("button[data-snippet]");
+      const motivationText = document.getElementById("motivation-text");
       const STORAGE_KEY = "wic_coding_basic_code_v1";
 
       // 기본 예제들
@@ -266,11 +360,11 @@ console.log(x * 2);"
           "const x = 10;",
           "const y = 2;",
           "console.log('x * y =', x * y);"
-        ].join("\n"),
+        ].join("\\n"),
         string: [
           "const name = 'WIC';",
           "console.log('안녕하세요,', name, '입니다.');"
-        ].join("\n"),
+        ].join("\\n"),
         if: [
           "const value = 7;",
           "if (value > 5) {",
@@ -278,7 +372,7 @@ console.log(x * 2);"
           "} else {",
           "  console.log('5보다 크지 않습니다.');",
           "}"
-        ].join("\n")
+        ].join("\\n")
       };
 
       // localStorage 복원
@@ -298,7 +392,7 @@ console.log(x * 2);"
         try {
           localStorage.setItem(STORAGE_KEY, codeInput.value);
         } catch (e) {
-          // 저장 실패 시는 그냥 무시
+          /* 무시 */
         }
       });
 
@@ -312,6 +406,8 @@ console.log(x * 2);"
             try {
               localStorage.setItem(STORAGE_KEY, ex);
             } catch (e) {}
+            motivationText.textContent =
+              "좋습니다. 이제 숫자나 메시지를 한 줄만 바꿔 보고, 아래 [코드 실행]을 눌러 보세요.";
           }
         });
       });
@@ -324,7 +420,6 @@ console.log(x * 2);"
           const end = codeInput.selectionEnd;
           const text = codeInput.value;
           codeInput.value = text.slice(0, start) + snippet + text.slice(end);
-          // 커서를 snippet 끝으로 이동
           const cursorPos = start + snippet.length;
           codeInput.selectionStart = codeInput.selectionEnd = cursorPos;
           codeInput.focus();
@@ -338,9 +433,12 @@ console.log(x * 2);"
       runBtn.addEventListener("click", () => {
         const userCode = codeInput.value;
         if (!userCode.trim()) {
-          outputBox.textContent = "코드가 비어 있습니다. 예제 불러오기를 먼저 눌러보세요.";
+          outputBox.textContent =
+            "코드가 비어 있습니다. 예제 불러오기를 먼저 눌러보세요.";
           outputBox.classList.remove("output-err");
           outputBox.classList.add("output-ok");
+          motivationText.textContent =
+            "먼저 예제 버튼을 눌러 코드 한 덩어리를 만들어 주세요.";
           return;
         }
 
@@ -352,21 +450,25 @@ console.log(x * 2);"
         };
 
         try {
-          // 사용자 코드 실행
           const fn = new Function("console", userCode);
           fn(fakeConsole);
 
           if (logs.length === 0) {
-            outputBox.textContent = "실행 완료: console.log(...) 출력이 없습니다.";
+            outputBox.textContent =
+              "실행 완료: console.log(...) 출력이 없습니다.";
           } else {
-            outputBox.textContent = logs.join("\n");
+            outputBox.textContent = logs.join("\\n");
           }
           outputBox.classList.remove("output-err");
           outputBox.classList.add("output-ok");
+          motivationText.textContent =
+            "잘 되었습니다. 내일은 if 예제나 다른 숫자 조합도 한 번 바꿔 보면 좋습니다.";
         } catch (err) {
-          outputBox.textContent = "에러 발생:\n" + String(err);
+          outputBox.textContent = "에러 발생:\\n" + String(err);
           outputBox.classList.remove("output-ok");
           outputBox.classList.add("output-err");
+          motivationText.textContent =
+            "에러가 나도 괜찮습니다. 한 줄씩 다시 읽어 보면서 어디가 다른지 찾는 연습이 됩니다.";
         }
       });
     })();
